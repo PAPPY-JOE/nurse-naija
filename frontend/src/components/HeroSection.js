@@ -42,7 +42,14 @@ const HeroSection = () => {
 
         {/* Trust indicator */}
         <p className="mt-12 text-sm text-gray-500">
-          Powered by Awarri's N-ATLaS-LLM - Multilingual African Language Model
+          <span>{"Powered by "}</span>
+          <img 
+            src="./assets/awarii.webp"
+            // src="./assets/logo-2.png"
+            className='w-[70px] rounded inline'
+          /> 
+          <span>'s N-ATLaS-LLM - Multilingual African Language Model</span>
+           
           {/* Trusted by clinics across Lagos, Abuja, and Port Harcourt */}
         </p>
       </div>

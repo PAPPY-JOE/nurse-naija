@@ -7,13 +7,12 @@ const Footer = () => {
         <div className="flex flex-col items-center text-center">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
-              <HeartPulseIcon
-                className="w-6 h-6 text-white"
-                aria-hidden="true"
-              />
-            </div>
-            <span className="text-2xl font-bold text-white">NurseNaija</span>
+            <img 
+              src="./assets/logo.png"
+              // src="./assets/logo-2.png"
+              className='h-[60px] rounded'
+            /> 
+            <span className="text-2xl font-bold text-white">Nurse<span className='text-emerald-500'>Naija</span></span>
           </div>
 
           {/* Tagline */}
