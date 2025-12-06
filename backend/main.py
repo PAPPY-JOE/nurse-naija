@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import firebase_admin
 from firebase_admin import db, credentials, initialize_app
 from models import Contact_Form
@@ -9,8 +10,16 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "https"
+    "https://nursenaija.netlify.app/"
 ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate('./credentials.json')
@@ -59,3 +68,9 @@ async def delete_contact_form(contact_form_id: str):
         return {"message": "contact Form deleted successfully"}
     else:
         raise HTTPException(status_code=404, detail="Contact Form not found")
+
+
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

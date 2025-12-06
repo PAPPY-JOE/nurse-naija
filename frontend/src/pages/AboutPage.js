@@ -10,19 +10,31 @@ import {
   TargetIcon,
 } from 'lucide-react'
 import { Footer, Header } from '../components'
+import api from '../api'
 
 
 const AboutPage = ({ onNavigateHome }) => {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   })
-  const handleSubmit = (e) => {
+  const [sentMessage, setSentMessage] = useState(false)
+  const [sendError, setSendError] = useState(false)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
-    alert("Thank you for your message! We'll get back to you soon.")
+
+    try {
+      await api.post("/contact_form", {...formData, replied: false, time: new Date()})
+    } catch (error) {
+      setSendError(true)
+      return
+    }
+
+    setSentMessage(true)
+
     setFormData({
       name: '',
       email: '',
@@ -274,105 +286,117 @@ const AboutPage = ({ onNavigateHome }) => {
                   Get in Touch
                 </h2>
               </div>
-              <p className="text-lg text-gray-600">
-                Have questions or want to learn more? We'd love to hear from
-                you.
-              </p>
+              {
+                !sentMessage && (
+                  <p className="text-lg text-gray-600">
+                    Have questions or want to learn more? We'd love to hear from
+                    you.
+                  </p>
+                )
+              }
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100"
-            >
-              <div className="space-y-6">
-                {/* Name Field */}
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-semibold text-gray-700 mb-2"
-                  >
-                    Your Name
-                  </label>
-                  <div className="relative">
-                    <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      id="name"
-                      value={formData.name}
+            {sentMessage ? (
+              <p className='text-center text-xl font-medium text-gray-800 mt-6'>Thank you for your message! We'll get back to you soon.</p>
+            ) : ( 
+              <form
+                onSubmit={handleSubmit}
+                className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100"
+              >
+                <div className="space-y-6">
+                  {/* Name Field */}
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                      Your Name
+                    </label>
+                    <div className="relative">
+                      <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="text"
+                        id="name"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            name: e.target.value,
+                          })
+                        }
+                        required
+                        className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        placeholder="Joseph Fatoye"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email Field */}
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            email: e.target.value,
+                          })
+                        }
+                        required
+                        className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        placeholder="joseph@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message Field */}
+                  <div>
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      value={formData.message}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          name: e.target.value,
+                          message: e.target.value,
                         })
                       }
                       required
-                      className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                      placeholder="Joseph Fatoye"
+                      rows={5}
+                      className="text-justify w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+                      placeholder="Tell us about your clinic or ask us a question..."
                     />
                   </div>
-                </div>
 
-                {/* Email Field */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-semibold text-gray-700 mb-2"
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="w-full py-4 bg-emerald-600 text-white font-semibold rounded-lg transition-colors duration-200 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 flex items-center justify-center gap-2"
                   >
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="email"
-                      id="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          email: e.target.value,
-                        })
-                      }
-                      required
-                      className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-                      placeholder="joseph@example.com"
-                    />
-                  </div>
+                    Send Message
+                    <SendIcon className="w-5 h-5" />
+                  </button>
+                  
+                  {sendError && (
+                    <p className='text-sm font-semibold text-red-700 mb-2'>There was an error sending your message. Please try again.</p>
+                  )}
                 </div>
-
-                {/* Message Field */}
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-semibold text-gray-700 mb-2"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        message: e.target.value,
-                      })
-                    }
-                    required
-                    rows={5}
-                    className="text-justify w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
-                    placeholder="Tell us about your clinic or ask us a question..."
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-emerald-600 text-white font-semibold rounded-lg transition-colors duration-200 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 flex items-center justify-center gap-2"
-                >
-                  Send Message
-                  <SendIcon className="w-5 h-5" />
-                </button>
-              </div>
-            </form>
+              </form>
+            )}
 
             <p className="text-center text-sm text-gray-500 mt-6">
               We typically respond within 24 hours
