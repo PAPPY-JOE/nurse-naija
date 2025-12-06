@@ -30,13 +30,7 @@ const HeroSection = () => {
           >
             Get Started
             <ArrowRightIcon className="w-5 h-5" aria-hidden="true" />
-          </button>
-          <button
-            className="inline-flex items-center gap-2 px-8 py-4 text-gray-700 font-semibold rounded-lg border border-gray-200 transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
-            aria-label="Learn more about NurseNaija"
-          >
-            Learn More
-          </button>
+          </button> 
         </div>
 
         {/* Trust indicator */}
