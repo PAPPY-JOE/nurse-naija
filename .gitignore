@@ -2,3 +2,6 @@ venv/
 __pycache__/ 
 .env 
 backend/credentials.json 
+
+# Local Netlify folder
+.netlify
