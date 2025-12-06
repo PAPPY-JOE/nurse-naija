@@ -1,6 +1,14 @@
 from pydantic import BaseModel
-from typing import Optional
+from datetime import datetime
+# from typing import Optional
 
-class User(BaseModel):
+# Get the current date and time as a datetime object
+current_datetime = datetime.now()
+
+class Contact_Form(BaseModel):
     name: str
-    description: Optional[str] = None
+    email: str
+    message: str
+    replied: bool = False
+    time: str = current_datetime
+    # message: Optional[str] = None
