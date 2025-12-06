@@ -1,4 +1,3 @@
-import React from 'react'
 import { ArrowRightIcon } from 'lucide-react'
 
 const HeroSection = () => {
@@ -45,12 +44,10 @@ const HeroSection = () => {
           <span>{"Powered by "}</span>
           <img 
             src="./assets/awarii.webp"
-            // src="./assets/logo-2.png"
+            alt='Awari'
             className='w-[70px] rounded inline'
           /> 
-          <span>'s N-ATLaS-LLM - Multilingual African Language Model</span>
-           
-          {/* Trusted by clinics across Lagos, Abuja, and Port Harcourt */}
+          <span>'s N-ATLaS-LLM - Multilingual African Language Model</span>           
         </p>
       </div>
     </section>

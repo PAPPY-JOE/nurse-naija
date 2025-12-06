@@ -12,7 +12,7 @@ const LandingPage = () => {
           <div className="flex items-center gap-2">
             <img 
               src="./assets/logo.png"
-              // src="./assets/logo-2.png"
+              alt='Logo'
               className='h-[40px]'
             /> 
             <span className="text-xl font-bold text-gray-900">Nurse<span className='text-emerald-500'>Naija</span></span>
