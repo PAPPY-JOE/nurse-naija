@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { AboutPage, LandingPage, TriageApp } from './pages'
 
-const App = () => {
+const Home = () => {
   const [currentPage, setCurrentPage] = useState('home')
   return (
     <>
@@ -30,5 +31,17 @@ const App = () => {
     </>
   )
 }
+
+
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
+)}
 
 export default App

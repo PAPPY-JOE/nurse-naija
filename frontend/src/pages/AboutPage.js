@@ -12,7 +12,6 @@ import {
 import { Footer, Header } from '../components'
 import api from '../api'
 
-
 const AboutPage = ({ onNavigateHome }) => {
 
   const [formData, setFormData] = useState({
@@ -87,10 +86,11 @@ const AboutPage = ({ onNavigateHome }) => {
 
             <div className="prose prose-lg max-w-none">
               <div className="bg-gray-50 rounded-2xl p-8 md:p-10 mb-8 border border-gray-100">
-                <a 
+                <a
                     className="flex items-start gap-4 mb-6"
+                    rel="noreferrer"
                     href='https://www.linkedin.com/in/josephfatoye/'
-                    target='blank'
+                    target='_blank'
                 >
                   <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
                     <img 
@@ -147,9 +147,10 @@ const AboutPage = ({ onNavigateHome }) => {
             <div className="text-justify bg-white rounded-2xl p-8 md:p-10 border border-gray-100 mb-8">
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 NurseNaija is a submission for the{' '}
-                <a 
-                    href='https://www.awarri.com/developer-challenge-2025'
-                    target='blank'
+                <a
+                  href='https://www.awarri.com/developer-challenge-2025'
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   <img 
                     src="./assets/awari_logo.jpg"

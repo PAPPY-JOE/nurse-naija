@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from 'lucide-react'
+import { HashLink } from 'react-router-hash-link'
 
 const Footer = ({ currentPage, onNavigateAbout, onNavigateHome }) => {
   return (
@@ -8,6 +9,7 @@ const Footer = ({ currentPage, onNavigateAbout, onNavigateHome }) => {
           {/* Logo */}
           <div className="flex items-center gap-3 mb-4">
             <img 
+              alt='Logo'
               src="./assets/logo.png"
               className='h-[60px] rounded'
             /> 
@@ -21,10 +23,10 @@ const Footer = ({ currentPage, onNavigateAbout, onNavigateHome }) => {
 
           {/* Links */}
           <div className="flex flex-wrap justify-center items-center gap-6 mb-8">
-            <a
-              href="#"
+            <HashLink
+              to="#"
               onClick={() => {
-                if (currentPage == "home") {
+                if (currentPage === "home") {
                     onNavigateAbout()
                 } else {
                     onNavigateHome()
@@ -32,16 +34,16 @@ const Footer = ({ currentPage, onNavigateAbout, onNavigateHome }) => {
               }}
               className="text-gray-400 transition-colors duration-200 hover:text-white focus:outline-none focus:text-white"
             >
-              {currentPage == "home" ? "About" : "Home"}
-            </a>
-            {currentPage == "home" && (
-              <a
-                href="#contact"
+              {currentPage === "home" ? "About" : "Home"}
+            </HashLink>
+            {currentPage === "home" && (
+              <HashLink
+                to="#contact"
                 onClick={onNavigateAbout}
                 className="text-gray-400 transition-colors duration-200 hover:text-white focus:outline-none focus:text-white"
               >
                 Contact
-              </a> 
+              </HashLink> 
             )}
             <button
               className="inline-flex items-center gap-2 py-2 px-4 bg-emerald-700 text-white font-semibold rounded-lg transition-colors duration-200 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"

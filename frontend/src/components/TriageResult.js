@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import {
   AlertTriangleIcon,
   ActivityIcon,
-  ArrowRightIcon,
   RefreshCwIcon,
 } from 'lucide-react'
 
