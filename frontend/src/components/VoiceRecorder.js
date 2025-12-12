@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { MicIcon, XIcon } from 'lucide-react'
 
@@ -8,6 +7,7 @@ const VoiceRecorder = ({ onStop, onCancel }) => {
   const bars = Array.from({
     length: 12,
   }).map((_, i) => i)
+  
   return (
     <div className="flex flex-col items-center justify-center h-full w-full py-12">
       <motion.h2

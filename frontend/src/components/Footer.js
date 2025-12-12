@@ -45,14 +45,14 @@ const Footer = ({ currentPage, onNavigateAbout, onNavigateHome }) => {
                 Contact
               </HashLink> 
             )}
-            <button
+            <HashLink
               className="inline-flex items-center gap-2 py-2 px-4 bg-emerald-700 text-white font-semibold rounded-lg transition-colors duration-200 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
               aria-label="Get started with NurseNaija"
-              // onClick={}
+              to="/app#"
             >
               Get Started
               <ArrowRightIcon className="w-5 h-5" aria-hidden="true" />
-            </button> 
+            </HashLink> 
           </div>
 
           {/* Copyright */}

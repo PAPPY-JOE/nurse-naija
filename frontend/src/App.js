@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { AboutPage, LandingPage, TriageApp } from './pages'
+import { Home } from './webapp'
 
-const Home = () => {
+const Base = () => {
   const [currentPage, setCurrentPage] = useState('home')
   return (
     <>
@@ -38,6 +39,9 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/">
+          <Base />
+        </Route>
+        <Route exact path="/app">
           <Home />
         </Route>
       </Switch>

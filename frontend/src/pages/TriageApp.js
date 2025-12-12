@@ -46,11 +46,7 @@ const TriageApp = ({ onExit }) => {
               className='h-[35px]'
             /> 
             <span className="text-base font-bold text-gray-900">Nurse<span className='text-emerald-500'>Naija</span></span>
-          </div>
-          {/* <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-xs font-medium text-emerald-600">Online</span>
-          </div> */}
+          </div> 
         </div>
 
         <button className="p-2 -mr-2 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors">

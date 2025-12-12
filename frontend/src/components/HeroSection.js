@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from 'lucide-react'
+import { HashLink } from 'react-router-hash-link'
 
 const HeroSection = () => {
   return (
@@ -24,13 +25,14 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button
+          <HashLink
+            to="/app#"
             className="inline-flex items-center gap-2 px-8 py-4 bg-emerald-600 text-white font-semibold rounded-lg transition-colors duration-200 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
             aria-label="Get started with NurseNaija"
           >
             Get Started
             <ArrowRightIcon className="w-5 h-5" aria-hidden="true" />
-          </button> 
+          </HashLink> 
         </div>
 
         {/* Trust indicator */}
