@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Countdown from "react-countdown";
-import { MicIcon, SendIcon, LoaderIcon, XIcon, CloudOff, StethoscopeIcon, UserIcon } from 'lucide-react'
+import { SendIcon, LoaderIcon, XIcon, CloudOff, StethoscopeIcon, UserIcon } from 'lucide-react'
 import TriageResultCard from './TriageResultCard'
+import VoiceRecorder from './VoiceRecorder';
 
 const ConversationView = ({
   messages,
@@ -10,6 +11,7 @@ const ConversationView = ({
   isRecording,
   isProcessing,
   isError,
+  isMicError,
   onStartRecording,
   onCancelRecording,
   onStopRecording,
@@ -186,31 +188,10 @@ const ConversationView = ({
 
             {/* Pulsing Mic Button */}
             <div className="relative mb-12">       
-              {/* Main Button */}
-              <motion.button
-                onClick={handleRecordButtonPress}
-                disabled={isProcessing}
-                className="relative z-10 w-32 h-32 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg text-white"
-                whileTap={{
-                  scale: 0.95,
-                }}
-                animate={{
-                  boxShadow: [
-                    '0 0 0 0px rgba(16, 185, 129, 0.4)',
-                    '0 0 0 20px rgba(16, 185, 129, 0)',
-                  ],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                }}
-              >
-                {isProcessing ? (
-                  <LoaderIcon className="w-12 h-12 text-white animate-spin" />
-                ) : (                  
-                  <MicIcon className="w-12 h-12" />
-                )}
-              </motion.button>
+              <VoiceRecorder 
+                isProcessing={isProcessing}
+                handleRecordButtonPress={handleRecordButtonPress}
+              />
             </div>
             
             {/* Waveform Visualization */}
@@ -240,14 +221,23 @@ const ConversationView = ({
 
             {!isRecording && !isProcessing && (
               <>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Tap microphone to start
-                </h3>
-                <p className="text-sm text-gray-600 max-w-xs my-2">
-                  {userRole === 'patient'
-                    ? 'Describe your symptoms using voice or text'
-                    : 'Help assess patient symptoms and provide triage guidance'}
-                </p>
+                {isError ? (
+                  <>
+                    <p className='text-red-600 font-semibold text-lg'>Something went wrong</p>
+                    <p className='text-sm text-gray-600 max-w-xs my-2'>Please try again...</p>
+                  </>
+                ) : (
+                  <>
+                    <h3 className={`text-lg font-semibold ${isMicError ? "text-emerald-600" : "text-gray-900"}`}>
+                      {isMicError ? "Kindly enable your" : "Tap"} microphone to start
+                    </h3>
+                    <p className="text-sm text-gray-600 max-w-xs my-2">
+                      {userRole === 'patient'
+                        ? 'Describe your symptoms using voice or text'
+                        : 'Help assess patient symptoms and provide triage guidance'}
+                    </p>
+                  </>
+                )}
               </>
             )}  
 

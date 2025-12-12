@@ -1,10 +1,11 @@
 import { create } from "zustand";
-import api from "./api";
+import api, { transcribeAudio } from "./api";
 
 export const useUserStore = create((set) => ({
   user: {
     currentSessionId: null,
     sessions: [],
+    language: "yoruba",
   },
 
   setCurrentSessionId: (id) =>
@@ -104,5 +105,59 @@ export const useUserStore = create((set) => ({
       },
     }));
   },
+
+  // TRANSCRIBE USER AUDIO
+  transcribeAudio: async (audioBlob, lang = "yoruba") => {
+    try {
+      const res = await transcribeAudio(audioBlob, lang);
+      return res.data.transcription;
+    } catch (err) {
+      console.error("ASR error:", err);
+      return null;
+    }
+  },
   
+  loadSessionsFromFirebase: async () => {
+    try {
+      const res = await api.get("/api/get_all_triage"); // We'll create this endpoint
+      const data = res.data || {};
+
+      const sessions = Object.keys(data).map((key) => {
+        const item = data[key];
+
+        return {
+          id: key,
+          role: item.role,
+          messages: [
+            {
+              role: "user",
+              type: "text",
+              content: item.symptoms,
+              timestamp: item.timestamp,
+            },
+            {
+              role: "assistant",
+              type: "text",
+              content: item.result?.notes || "Triage summary",
+              timestamp: item.timestamp,
+            },
+          ],
+          triageResult: item.result,
+          triageLevel: item.result?.triage_level,
+          preview: item.symptoms.slice(0, 50),
+          timestamp: item.timestamp,
+        };
+      });
+
+      set((state) => ({
+        user: {
+          ...state.user,
+          sessions: sessions.reverse(), // newest first
+        },
+      }));
+    } catch (err) {
+      console.error("Error loading Firebase sessions:", err);
+    }
+  },
+
 }));

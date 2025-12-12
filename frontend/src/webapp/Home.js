@@ -1,27 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MenuIcon, LogOutIcon } from 'lucide-react'
 import { HashLink } from 'react-router-hash-link';
 import { ConversationView, HistorySidebar, RoleSelector } from '../components/webapp/'
 import { useUserStore } from '../store';
 
 const Home = () => {
-  // const user = useUserStore((state) => state.user)
   const currentSessionId = useUserStore((state) => state.user.currentSessionId)
   const setCurrentSessionId = useUserStore((state) => state.setCurrentSessionId)
   const sessions = useUserStore((state) => state.user.sessions)
-  // console.log(sessions)
   const addSession = useUserStore((state) => state.addSession)
   const addUserMessage = useUserStore((state) => state.addUserMessage)
   const addAssistantMessage = useUserStore((state) => state.addAssistantMessage)
   const fetchTriage = useUserStore((state) => state.fetchTriage);
   const updateSessionWithTriage = useUserStore((state) => state.updateSessionWithTriage);
-
+  const transcribeAudio = useUserStore((state) => state.transcribeAudio);
 
   const [sidebarOpen, setSidebarOpen] = useState(false) 
   const [userRole, setUserRole] = useState(null)
   const [isRecording, setIsRecording] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [isMicError, setIsMicError] = useState(false)
+  
+  const mediaRecorder = useRef(null);
+  const audioChunks = useRef([]);
 
   const currentSession = sessions.find((s) => s.id === currentSessionId)
 
@@ -54,52 +56,104 @@ const Home = () => {
 
   const handleStartRecording = async () => {
     setIsRecording(true)
-    // TODO: Implement actual voice recording using Web Audio API
-    // For now, just simulate recording
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      audioChunks.current = []; // reset chunks
+      mediaRecorder.current = new MediaRecorder(stream);
+
+      mediaRecorder.current.ondataavailable = (e) => {
+        audioChunks.current.push(e.data);
+      };
+
+      mediaRecorder.current.start();
+      setIsRecording(true);
+    } catch (err) {
+      setIsRecording(false)
+      setIsMicError(true);
+      console.error("Microphone error:", err);
+    }
   }
 
   const handleCancelRecording = async () => {
-    setIsRecording(false)
-    // TODO: Implement actual voice recording using Web Audio API
-    // For now, just simulate recording
-  }
+    try {
+      setIsRecording(false);
+
+      // Stop MediaRecorder if active
+      if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
+        mediaRecorder.current.stop();
+      }
+
+      // Stop the microphone stream
+      if (mediaRecorder.current?.stream) {
+        mediaRecorder.current.stream.getTracks().forEach((track) => track.stop());
+      }
+
+      // Clear audio chunks
+      audioChunks.current = [];
+
+      // Reset recorder reference
+      mediaRecorder.current = null;
+
+      // Ensure UI is not stuck in processing state
+      setIsProcessing(false);
+
+    } catch (err) {
+      console.error("Cancel recording error:", err);
+    }
+  };
+
+  // PROCESS AUDIO → STT → TRIAGE
+  const processAudio = async (audioBlob) => {
+
+    // Speech to Text
+    const text = await transcribeAudio(audioBlob, "yoruba"); // auto-change later
+    // const text = await transcribeAudio(audioBlob, "hausa"); // auto-change later
+    // const text = await transcribeAudio(audioBlob, "igbo"); // auto-change later
+
+    if (!text) {
+      setIsProcessing(false);
+      // alert("Could not transcribe.");
+      setIsError(true);
+      return;
+    }
+
+    // Log user message
+    addUserMessage(currentSessionId, {
+      role: "user",
+      type: "voice",
+      content: text,
+      timestamp: Date.now(),
+    });
+
+    // Fetch triage
+    const triage = await fetchTriage(text, "patient");
+
+    // Log assistant response & triage data
+    addAssistantMessage(
+      currentSessionId,
+      {
+        role: "assistant",
+        content: triage?.notes || "Triage result available.",
+        timestamp: Date.now(),
+      },
+      triage
+    );
+
+    setIsProcessing(false);
+  };
 
   const handleStopRecording = async () => {
     setIsRecording(false)
     setIsProcessing(true)
-    // TODO: Send audio to backend for transcription and triage
-    // Simulate API call
-    setTimeout(() => {
-      handleReceiveResponse(
-        'Oga, my belle dey pain me well well. I don vomit like three times today.',
-        {
-          triage_level: 'MODERATE',
-          detected_symptoms: [
-            'Severe abdominal pain',
-            'Vomiting (3 episodes)',
-            'Nausea',
-          ],
-          risk_score: 5,
-          immediate_patient_steps: [
-            'Rest and monitor symptoms',
-            'Stay hydrated with clear fluids',
-            'Seek medical attention if symptoms worsen',
-          ],
-          provider_actions: [
-            'Assess for dehydration',
-            'Consider gastroenteritis diagnosis',
-            'Monitor for complications',
-          ],
-          language: 'pidgin',
-          notes: 'Patient presenting with acute gastric symptoms',
-          metadata: {
-            timestamp: new Date().toISOString(),
-            model_used: 'NCAIR1/N-ATLaS',
-            offline_mode: false,
-          },
-        },
-      )
-    }, 125000)
+
+    mediaRecorder.current.stop();
+
+    mediaRecorder.current.onstop = async () => {
+      const blob = new Blob(audioChunks.current, { type: "audio/wav" });
+      processAudio(blob);
+    };
   }
 
   const handleSendText = async (text) => {
@@ -145,21 +199,63 @@ const Home = () => {
     setIsProcessing(false)
   }
 
-  const handleReceiveResponse = (userText, triageData) => {
-    if (!currentSessionId) return
+  useEffect(() => {
+    useUserStore.getState().loadSessionsFromFirebase();
+  }, []);
 
-    const assistantMessage = {
-      id: (Date.now() + 1).toString(),
-      role: 'assistant',
-      content: `Triage assessment complete. Level: ${triageData.triage_level}`,
-      timestamp: new Date().toISOString(),
-      preview: userText.slice(0, 50)
-    } 
+  // const handleStopRecording = async () => {
+  //   setIsRecording(false)
+  //   setIsProcessing(true)
+  //   // TODO: Send audio to backend for transcription and triage
+  //   // // Simulate API call
+  //   // setTimeout(() => {
+  //   //   handleReceiveResponse(
+  //   //     'Oga, my belle dey pain me well well. I don vomit like three times today.',
+  //   //     {
+  //   //       triage_level: 'MODERATE',
+  //   //       detected_symptoms: [
+  //   //         'Severe abdominal pain',
+  //   //         'Vomiting (3 episodes)',
+  //   //         'Nausea',
+  //   //       ],
+  //   //       risk_score: 5,
+  //   //       immediate_patient_steps: [
+  //   //         'Rest and monitor symptoms',
+  //   //         'Stay hydrated with clear fluids',
+  //   //         'Seek medical attention if symptoms worsen',
+  //   //       ],
+  //   //       provider_actions: [
+  //   //         'Assess for dehydration',
+  //   //         'Consider gastroenteritis diagnosis',
+  //   //         'Monitor for complications',
+  //   //       ],
+  //   //       language: 'pidgin',
+  //   //       notes: 'Patient presenting with acute gastric symptoms',
+  //   //       metadata: {
+  //   //         timestamp: new Date().toISOString(),
+  //   //         model_used: 'NCAIR1/N-ATLaS',
+  //   //         offline_mode: false,
+  //   //       },
+  //   //     },
+  //   //   )
+  //   // }, 125000)
+  // }
 
-    addAssistantMessage(currentSessionId, assistantMessage, triageData)
+  // const handleReceiveResponse = (userText, triageData) => {
+  //   if (!currentSessionId) return
 
-    setIsProcessing(false)
-  }
+  //   const assistantMessage = {
+  //     id: (Date.now() + 1).toString(),
+  //     role: 'assistant',
+  //     content: `Triage assessment complete. Level: ${triageData.triage_level}`,
+  //     timestamp: new Date().toISOString(),
+  //     preview: userText.slice(0, 50)
+  //   } 
+
+  //   addAssistantMessage(currentSessionId, assistantMessage, triageData)
+
+  //   setIsProcessing(false)
+  // }
   
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -221,6 +317,7 @@ const Home = () => {
             isRecording={isRecording}
             isProcessing={isProcessing}
             isError={isError}
+            isMicError={isMicError}
             onStartRecording={handleStartRecording}
             onCancelRecording={handleCancelRecording}
             onStopRecording={handleStopRecording}

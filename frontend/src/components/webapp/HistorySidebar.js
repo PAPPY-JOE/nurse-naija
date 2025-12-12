@@ -11,7 +11,7 @@ const HistorySidebar = ({
   onNewSession,
 }) => {
 
-  console.log(sessions[0])
+  console.log(sessions)
   return (
     <AnimatePresence>
       {isOpen && (
@@ -109,7 +109,7 @@ const HistorySidebar = ({
                         )}
                       </div>
                       <p className="text-sm text-gray-900 line-clamp-2 mb-2">
-                        {session.triageResult?.notes.length() > 0 ? 
+                        {session.triageResult?.notes?.length > 0 ? 
                         session.triageResult?.notes?.slice(0, 50) + "..." 
                         : "Start a new conversation..."} 
                       </p> 
