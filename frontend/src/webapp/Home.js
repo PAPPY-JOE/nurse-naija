@@ -99,6 +99,7 @@ const Home = () => {
 
       // Ensure UI is not stuck in processing state
       setIsProcessing(false);
+      setIsError(false);
 
     } catch (err) {
       console.error("Cancel recording error:", err);

@@ -226,8 +226,8 @@ const ConversationView = ({
               <>
                 {isError ? (
                   <>
-                    <p className='text-red-600 font-semibold text-lg'>Something went wrong</p>
-                    <p className='text-sm text-gray-600 max-w-xs my-2'>Please try again...</p>
+                    <p className='text-red-600 font-semibold text-xl sm:text-2xl font-semibold'>Something went wrong</p>
+                    <p className='text-sm sm:text-base text-gray-600 max-w-xs my-2'>Please try again...</p>
                   </>
                 ) : (
                   <>
@@ -306,9 +306,10 @@ const ConversationView = ({
               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200 text-gray-900`}>
                   <LoaderIcon className="w-5 h-5 text-emerald-600 animate-spin" />
               </div>
-            <div className='max-w-[80%] rounded-2xl rounded-tl-none mx-1 px-4 py-3 flex flex-col items-center justify-start bg-gray-200'>
+              
+            <div className='max-w-[80%] rounded-2xl rounded-tl-none mx-2 px-4 py-3 flex flex-col items-center justify-start bg-gray-200'>
               <div className='flex items-center justify-start'>
-                <p className='text-sm'>Processing...</p>
+                <p className='text-md'>Processing...</p>
               </div>
 
               <Countdown date={Date.now() + 120000} renderer={processingTextRenderer} />
@@ -317,13 +318,16 @@ const ConversationView = ({
             )}
 
         {isError && messages.length > 0 && (
-          <div className='flex'>
-            <div className='max-w-[80%] rounded-2xl px-4 py-3 flex flex-col items-center justify-start bg-red-100'>
+          <div className='flex px-1'>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200 bg-red-100`}>
+                  <CloudOff className="w-5 h-5 text-gray-900" />
+            </div>
+
+            <div className='max-w-[80%] rounded-2xl rounded-tl-none mx-2 px-4 py-3 flex flex-col items-center justify-start bg-red-100'>
               <div className='flex items-end justify-center'>
-                <CloudOff className="w-4 h-4 text-gray-900 animate -spin" />
-                <p className='ml-2 text-sm'>Something went wrong...</p>
+                <p className='text-md'>Something went wrong...</p>
               </div>
-              <p className="text-xs text-gray-700 w-full mt-2">
+              <p className="text-xs text-gray-700 w-full mt-1">
                 Please try again
               </p>
             </div>
