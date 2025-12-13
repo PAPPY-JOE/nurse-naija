@@ -5,8 +5,16 @@ export const useUserStore = create((set) => ({
   user: {
     currentSessionId: null,
     sessions: [],
-    language: "yoruba",
+    language: null,
   },
+
+  setLanguage: (lang) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        language: lang,
+      },
+    })),
 
   setCurrentSessionId: (id) =>
     set((state) => ({
