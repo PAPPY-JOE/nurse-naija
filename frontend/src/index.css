@@ -6,3 +6,29 @@
 html {
     scroll-behavior: smooth;
 }
+
+/* For Firefox */
+html {
+  scrollbar-width: thin; /* auto | thin | none */
+  scrollbar-color: #059669 #ecfdf5; /* thumb color track color */
+}
+
+/* For Chrome, Edge, and Safari */
+html::-webkit-scrollbar {
+  width: 10px; /* vertical scrollbar width */
+  height: 10px; /* horizontal scrollbar height */
+}
+
+html::-webkit-scrollbar-track {
+  background: #ecfdf5; /* color of the track (background) */
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #059669; /* color of the thumb (draggable handle) */
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #047857; /* color on hover */
+}

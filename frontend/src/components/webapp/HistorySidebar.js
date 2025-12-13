@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion'
-import { XIcon, MessageSquareIcon, ClockIcon, PlusIcon } from 'lucide-react'
-import { getLevelColor, getLevelConfig } from '../../helper'
+import { motion, AnimatePresence } from "framer-motion";
+import { XIcon, MessageSquareIcon, ClockIcon, PlusIcon } from "lucide-react";
+import { getLevelColor, getLevelConfig } from "../../helper";
 
 const HistorySidebar = ({
   isOpen,
@@ -9,9 +9,8 @@ const HistorySidebar = ({
   currentSessionId,
   onSelectSession,
   onNewSession,
+  setIsError,
 }) => {
-
-  console.log(sessions)
   return (
     <AnimatePresence>
       {isOpen && (
@@ -43,7 +42,7 @@ const HistorySidebar = ({
               x: -300,
             }}
             transition={{
-              type: 'spring',
+              type: "spring",
               damping: 25,
               stiffness: 200,
             }}
@@ -67,8 +66,9 @@ const HistorySidebar = ({
             <div className="p-4 border-b border-gray-200">
               <button
                 onClick={() => {
-                  onNewSession()
-                  onClose()
+                  onNewSession();
+                  onClose();
+                  setIsError(false);
                 }}
                 className="w-full py-3 px-4 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
               >
@@ -91,10 +91,15 @@ const HistorySidebar = ({
                     <button
                       key={session.id}
                       onClick={() => {
-                        onSelectSession(session.id)
-                        onClose()
+                        onSelectSession(session.id);
+                        onClose();
+                        setIsError(false);
                       }}
-                      className={`w-full text-left p-3 rounded-lg transition-colors ${currentSessionId === session.id ? 'bg-emerald-50 border border-emerald-200' : 'hover:bg-gray-50 border border-transparent'}`}
+                      className={`w-full text-left p-3 rounded-lg transition-colors ${
+                        currentSessionId === session.id
+                          ? "bg-emerald-50 border border-emerald-200"
+                          : "hover:bg-gray-50 border border-transparent"
+                      }`}
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <span className="text-xs font-medium text-gray-500 capitalize">
@@ -102,17 +107,22 @@ const HistorySidebar = ({
                         </span>
                         {session.triageLevel && (
                           <span
-                            className={`text-xs px-2 py-0.5 rounded-full font-medium normal-case ${getLevelColor(session.triageResult?.risk_score)}`}
+                            className={`text-xs px-2 py-0.5 rounded-full font-medium normal-case ${getLevelColor(
+                              session.triageResult?.risk_score
+                            )}`}
                           >
-                            {getLevelConfig(session.triageResult?.risk_score)?.level}
+                            {
+                              getLevelConfig(session.triageResult?.risk_score)
+                                ?.level
+                            }
                           </span>
                         )}
                       </div>
                       <p className="text-sm text-gray-900 line-clamp-2 mb-2">
-                        {session.triageResult?.notes?.length > 0 ? 
-                        session.triageResult?.notes?.slice(0, 50) + "..." 
-                        : "Start a new conversation..."} 
-                      </p> 
+                        {session.triageResult?.notes?.length > 0
+                          ? session.triageResult?.notes?.slice(0, 50) + "..."
+                          : "Start a new conversation..."}
+                      </p>
                       <div className="flex items-center gap-1 text-xs text-gray-500">
                         <ClockIcon className="w-3 h-3" />
                         {new Date(session.timestamp).toLocaleString()}
@@ -126,7 +136,7 @@ const HistorySidebar = ({
         </>
       )}
     </AnimatePresence>
-  )
-}
+  );
+};
 
-export default HistorySidebar
+export default HistorySidebar;

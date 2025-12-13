@@ -161,11 +161,11 @@ const ConversationView = ({
   const shouldShowInput = isError || messages.length === 0;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex-1 flex flex-col h-full min-h-[calc(100vh-60px)] pt- 20 max-w-[800px] bg-white">
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p -4 pt-0 space -y-4">
         {messages.length === 0 && !triageResult && (
-          <div className="flex flex-col items-center justify-center h-full text-center p-8">
+          <div className="flex-1 flex flex-col items-center justify-center h-full min-h-[calc(100vh-140px)] text-center py-2 px-8">
             {(isRecording || isProcessing) && (
               <motion.h2
                 initial={{
@@ -180,7 +180,7 @@ const ConversationView = ({
                   duration: 0.3,
                   ease: 'easeOut',
                 }}
-                className="text-2xl font-semibold text-gray-800 mb-12"
+                className="text-2xl font-semibold text-gray-800 mb-6 sm:mb-12"
               >
                 {isProcessing ? "Processing..." : "Listening..."}
               </motion.h2>
@@ -360,7 +360,7 @@ const ConversationView = ({
                     ? 'Recording...'
                     : 'Type your message or use voice...'
                 }
-                className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 pr-12 text-sm sm:text-md border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
                 rows={1}
                 style={{
                   minHeight: '48px',

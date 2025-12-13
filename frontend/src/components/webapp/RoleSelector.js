@@ -14,7 +14,7 @@ const RoleSelector = ({ onSelectRole }) => {
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full p-8">
+    <div className="flex-1 flex flex-col items-center justify-center h-full min-h-[calc(100vh-60px)] w-full p-8 py-20">
 
       {!language && (
         <>
@@ -24,7 +24,7 @@ const RoleSelector = ({ onSelectRole }) => {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
               Welcome to Nurse<span className="text-emerald-500">Naija</span>
             </h2>
             <p className="text-lg text-gray-600">

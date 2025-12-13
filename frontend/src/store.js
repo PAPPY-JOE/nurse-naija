@@ -74,7 +74,7 @@ export const useUserStore = create((set) => ({
       };
     }),
 
-   // CALL YOUR BACKEND USING AXIOS
+   // CALL BACKEND USING AXIOS
   fetchTriage: async (symptoms, role = "patient") => {
     try {
       const res = await api.get("/api/prod_triage", {

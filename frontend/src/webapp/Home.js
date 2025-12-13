@@ -112,6 +112,8 @@ const Home = () => {
     // const text = await transcribeAudio(audioBlob, "hausa"); // auto-change later
     // const text = await transcribeAudio(audioBlob, "igbo"); // auto-change later
 
+    setIsError(false);
+
     if (!text) {
       setIsProcessing(false);
       // alert("Could not transcribe.");
@@ -258,7 +260,7 @@ const Home = () => {
   // }
   
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center justify-between w-full gap-3">
@@ -304,10 +306,11 @@ const Home = () => {
         currentSessionId={currentSessionId}
         onSelectSession={handleSelectSession}
         onNewSession={handleNewSession}
+        setIsError={setIsError}
       />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 w-full flex justify-center items-center">
         {!userRole ? (
           <RoleSelector onSelectRole={handleSelectRole} />
         ) : (
