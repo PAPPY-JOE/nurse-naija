@@ -14,7 +14,7 @@ const RoleSelector = ({ onSelectRole }) => {
   ]
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center h-full min-h-[calc(100vh-60px)] w-full p-8 py-20">
+    <div className="flex-1 flex flex-col items-center justify-center h-full min-h-[calc(100vh-60px)] w-full p-8 py-20 max-w-[800px] bg-white">
 
       {!language && (
         <>
@@ -27,7 +27,7 @@ const RoleSelector = ({ onSelectRole }) => {
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
               Welcome to Nurse<span className="text-emerald-500">Naija</span>
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-base sm:text-lg text-gray-600">
               Please choose your preferred language
             </p>
           </motion.div>
@@ -58,11 +58,11 @@ const RoleSelector = ({ onSelectRole }) => {
             transition={{ duration: 0.5 }}
             className="text-center mb-6 flex flex-col items-center justify-center"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               Choose your role
             </h2>
 
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-base sm:text-lg">
               Language:
               <span className="capitalize font-semibold ml-1">
                 {language}

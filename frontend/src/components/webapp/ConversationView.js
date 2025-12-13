@@ -161,7 +161,7 @@ const ConversationView = ({
   const shouldShowInput = isError || messages.length === 0;
 
   return (
-    <div className="flex-1 flex flex-col h-full min-h-[calc(100vh-60px)] pt- 20 max-w-[800px] bg-white">
+    <div className="flex-1 flex flex-col h-full min-h-[calc(100vh-60px)] max-w-[800px] bg-white">
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p -4 pt-0 space -y-4">
         {messages.length === 0 && !triageResult && (
@@ -180,7 +180,7 @@ const ConversationView = ({
                   duration: 0.3,
                   ease: 'easeOut',
                 }}
-                className="text-2xl font-semibold text-gray-800 mb-6 sm:mb-12"
+                className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 sm:mb-12"
               >
                 {isProcessing ? "Processing..." : "Listening..."}
               </motion.h2>
@@ -228,10 +228,10 @@ const ConversationView = ({
                   </>
                 ) : (
                   <>
-                    <h3 className={`text-lg font-semibold ${isMicError ? "text-emerald-600" : "text-gray-900"}`}>
+                    <h3 className={`text-xl sm:text-2xl font-semibold ${isMicError ? "text-emerald-600" : "text-gray-900"}`}>
                       {isMicError ? "Kindly enable your" : "Tap"} microphone to start
                     </h3>
-                    <p className="text-sm text-gray-600 max-w-xs my-2">
+                    <p className="text-sm sm:text-base text-gray-600 max-w-xs my-2">
                       {userRole === 'patient'
                         ? 'Describe your symptoms using voice or text'
                         : 'Help assess patient symptoms and provide triage guidance'}
