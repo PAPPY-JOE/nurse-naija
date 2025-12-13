@@ -75,13 +75,13 @@ export const useUserStore = create((set) => ({
     }),
 
    // CALL BACKEND USING AXIOS
-  fetchTriage: async (symptoms, role = "patient") => {
+  fetchTriage: async (symptoms, role = "patient", prefer_language) => {
     try {
       const res = await api.get("/api/prod_triage", {
         params: { 
           symptoms, 
           role,
-          prefer_language: null,
+          prefer_language: prefer_language ?? "Auto",
           max_new_tokens: 400,
           safety_mode: true,
           sync: false

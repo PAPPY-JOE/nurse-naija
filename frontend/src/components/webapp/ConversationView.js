@@ -20,6 +20,8 @@ const ConversationView = ({
   onReset
 }) => {
   const [textInput, setTextInput] = useState('')
+  // console.log(messages[0])
+  console.log(messages)
 
   const messagesEndRef = useRef(null)
   useEffect(() => {
@@ -272,7 +274,7 @@ const ConversationView = ({
               opacity: 1,
               y: 0,
             }}
-            className={`flex my-3 mx-1 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-end flex-row-reverse'}`}
+            className={`flex my-4 mx-2 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-end flex-row-reverse'}`}
           >
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === 'user' ? 'rounded-tr-none bg-gray-200 text-gray-900' : 'bg-emerald-100 rounded-tl-none'}`}
@@ -280,11 +282,14 @@ const ConversationView = ({
               <p className="text-md leading-relaxed whitespace-pre-wrap">
                 {message.content}
               </p>
-              <span
-                className={`text-xs mt-1 block font-medium ${message.role === 'user' ? 'text-gray-500' : 'text-emerald-600'}`}
-              >
-                {new Date(message.timestamp).toLocaleTimeString()}
-              </span>
+              <div className={`mt-1 flex justify-between text-xs ${message.role === 'user' ? 'text-gray-500' : 'text-emerald-600'}`}>
+                <p>
+                  {new Date(message.timestamp).toLocaleTimeString()}
+                </p>
+                {message.role === 'user'&& (
+                  <p className='ml-3'>{`Original (${message.language ?? "Auto"})`}</p>
+                )}
+              </div>
             </div>
             <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${message.role === 'user' ? 'bg-gray-200 text-gray-900' : 'bg-emerald-100'}`}>
               {message.role === 'user' ? (

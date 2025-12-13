@@ -7,6 +7,7 @@ import { useUserStore } from '../store';
 const Home = () => {
   const currentSessionId = useUserStore((state) => state.user.currentSessionId)
   const setCurrentSessionId = useUserStore((state) => state.setCurrentSessionId)
+  const languageSelected = useUserStore((state) => state.user.language)
   const sessions = useUserStore((state) => state.user.sessions)
   const addSession = useUserStore((state) => state.addSession)
   const addUserMessage = useUserStore((state) => state.addUserMessage)
@@ -107,15 +108,12 @@ const Home = () => {
   const processAudio = async (audioBlob) => {
 
     // Speech to Text
-    const text = await transcribeAudio(audioBlob, "yoruba"); // auto-change later
-    // const text = await transcribeAudio(audioBlob, "hausa"); // auto-change later
-    // const text = await transcribeAudio(audioBlob, "igbo"); // auto-change later
+    const text = await transcribeAudio(audioBlob, languageSelected);
 
     setIsError(false);
 
     if (!text) {
       setIsProcessing(false);
-      // alert("Could not transcribe.");
       setIsError(true);
       return;
     }
@@ -125,11 +123,12 @@ const Home = () => {
       role: "user",
       type: "voice",
       content: text,
+      language: languageSelected,
       timestamp: Date.now(),
     });
 
     // Fetch triage
-    const triage = await fetchTriage(text, "patient");
+    const triage = await fetchTriage(text, userRole ?? "patient", languageSelected);
 
     // Log assistant response & triage data
     addAssistantMessage(
@@ -164,6 +163,7 @@ const Home = () => {
       id: Date.now().toString(),
       role: 'user',
       content: text,
+      language: languageSelected,
       timestamp: new Date().toISOString(),
     }
 
@@ -172,7 +172,7 @@ const Home = () => {
     setIsProcessing(true)
     setIsError(false)
 
-    const triage = await fetchTriage(text, userRole ?? "patient");
+    const triage = await fetchTriage(text, userRole ?? "patient", languageSelected);
 
     if (!triage) {
       console.log("No triage results returned");
