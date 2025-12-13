@@ -104,7 +104,6 @@ const Home = () => {
     }
   };
 
-  // PROCESS AUDIO → STT → TRIAGE
   const processAudio = async (audioBlob) => {
 
     // Speech to Text
@@ -201,63 +200,13 @@ const Home = () => {
     setIsProcessing(false)
   }
 
+  const onReset = () => {
+    setUserRole(null)
+  }
+
   useEffect(() => {
     useUserStore.getState().loadSessionsFromFirebase();
   }, []);
-
-  // const handleStopRecording = async () => {
-  //   setIsRecording(false)
-  //   setIsProcessing(true)
-  //   // TODO: Send audio to backend for transcription and triage
-  //   // // Simulate API call
-  //   // setTimeout(() => {
-  //   //   handleReceiveResponse(
-  //   //     'Oga, my belle dey pain me well well. I don vomit like three times today.',
-  //   //     {
-  //   //       triage_level: 'MODERATE',
-  //   //       detected_symptoms: [
-  //   //         'Severe abdominal pain',
-  //   //         'Vomiting (3 episodes)',
-  //   //         'Nausea',
-  //   //       ],
-  //   //       risk_score: 5,
-  //   //       immediate_patient_steps: [
-  //   //         'Rest and monitor symptoms',
-  //   //         'Stay hydrated with clear fluids',
-  //   //         'Seek medical attention if symptoms worsen',
-  //   //       ],
-  //   //       provider_actions: [
-  //   //         'Assess for dehydration',
-  //   //         'Consider gastroenteritis diagnosis',
-  //   //         'Monitor for complications',
-  //   //       ],
-  //   //       language: 'pidgin',
-  //   //       notes: 'Patient presenting with acute gastric symptoms',
-  //   //       metadata: {
-  //   //         timestamp: new Date().toISOString(),
-  //   //         model_used: 'NCAIR1/N-ATLaS',
-  //   //         offline_mode: false,
-  //   //       },
-  //   //     },
-  //   //   )
-  //   // }, 125000)
-  // }
-
-  // const handleReceiveResponse = (userText, triageData) => {
-  //   if (!currentSessionId) return
-
-  //   const assistantMessage = {
-  //     id: (Date.now() + 1).toString(),
-  //     role: 'assistant',
-  //     content: `Triage assessment complete. Level: ${triageData.triage_level}`,
-  //     timestamp: new Date().toISOString(),
-  //     preview: userText.slice(0, 50)
-  //   } 
-
-  //   addAssistantMessage(currentSessionId, assistantMessage, triageData)
-
-  //   setIsProcessing(false)
-  // }
   
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -326,6 +275,7 @@ const Home = () => {
             onStopRecording={handleStopRecording}
             onSendText={handleSendText}
             userRole={userRole}
+            onReset={onReset}
           />
         )}
       </main>

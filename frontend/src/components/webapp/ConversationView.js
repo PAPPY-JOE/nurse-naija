@@ -17,6 +17,7 @@ const ConversationView = ({
   onStopRecording,
   onSendText,
   userRole,
+  onReset
 }) => {
   const [textInput, setTextInput] = useState('')
 
@@ -271,7 +272,7 @@ const ConversationView = ({
               opacity: 1,
               y: 0,
             }}
-            className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-end flex-row-reverse'}`}
+            className={`flex my-3 mx-1 gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-end flex-row-reverse'}`}
           >
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === 'user' ? 'rounded-tr-none bg-gray-200 text-gray-900' : 'bg-emerald-100 rounded-tl-none'}`}
@@ -296,11 +297,13 @@ const ConversationView = ({
         ))} 
 
         {isProcessing && messages.length > 0 && (
-          <div className='flex'>
-            <div className='max-w-[80%] rounded-2xl px-4 py-3 flex flex-col items-center justify-start bg-gray-200'>
+          <div className='flex px-1'>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200 text-gray-900`}>
+                  <LoaderIcon className="w-5 h-5 text-emerald-600 animate-spin" />
+              </div>
+            <div className='max-w-[80%] rounded-2xl rounded-tl-none mx-1 px-4 py-3 flex flex-col items-center justify-start bg-gray-200'>
               <div className='flex items-center justify-start'>
-                <LoaderIcon className="w-4 h-4 text-gray-900 animate-spin" />
-                <p className='ml-2 text-sm'>Processing...</p>
+                <p className='text-sm'>Processing...</p>
               </div>
 
               <Countdown date={Date.now() + 120000} renderer={processingTextRenderer} />
@@ -336,7 +339,7 @@ const ConversationView = ({
               delay: 0.3,
             }}
           >
-            <TriageResultCard triageData={triageResult} onReset={() => {}} />
+            <TriageResultCard triageData={triageResult} onReset={onReset} />
           </motion.div>
         )}
 
