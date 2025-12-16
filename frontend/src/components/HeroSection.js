@@ -8,7 +8,7 @@ const HeroSection = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium mb-8">
           <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
-          Built for Nigerian Clinics
+          Built for Nigerian Healthcare & Community Response
         </div>
 
         {/* Headline */}
@@ -19,8 +19,7 @@ const HeroSection = () => {
 
         {/* Subheading */}
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Offline multilingual triage assistant helping Nigerian clinics serve
-          patients in their native language—no internet required.
+          Offline multilingual triage assistant helping responders understand patients in their native language — no internet required. 
         </p>
 
         {/* CTA Button */}

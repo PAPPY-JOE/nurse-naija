@@ -115,12 +115,13 @@ export const useUserStore = create((set) => ({
   },
 
   // TRANSCRIBE USER AUDIO
-  transcribeAudio: async (audioBlob, lang = "yoruba") => {
+  transcribeAudio: async (audioBlob, lang) => {
     try {
-      const res = await transcribeAudio(audioBlob, lang);
+      const res = await transcribeAudio(audioBlob, lang ?? "english");
       return res.data.transcription;
     } catch (err) {
-      console.error("ASR error:", err);
+      // console.error("ASR error:", err);
+      console.log("ASR error:", err);
       return null;
     }
   },

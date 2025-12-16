@@ -103,7 +103,7 @@ const HistorySidebar = ({
                     >
                       <div className="flex items-start justify-between gap-2 mb-2">
                         <span className="text-xs font-medium text-gray-500 capitalize">
-                          {session.role}
+                          {session.role === "patient" ? "Basic Triage" : "Clinical Triage"}
                         </span>
                         {session.triageLevel && (
                           <span

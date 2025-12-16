@@ -108,7 +108,10 @@ const Home = () => {
 
   const processAudio = async (audioBlob) => {
 
+
+
     // Speech to Text
+    console.log(languageSelected)
     const text = await transcribeAudio(audioBlob, languageSelected);
 
     setIsError(false);
@@ -234,7 +237,7 @@ const Home = () => {
             <div> 
               <h1 className="font-bold text-gray-900 text-sm">Nurse<span className='text-emerald-500'>Naija</span></h1>
               {userRole && (
-                <p className="text-xs text-gray-500 capitalize">{userRole}</p>
+                <p className="text-xs text-gray-500 capitalize">{userRole === "patient" ? "Basic Triage" : "Clinical Triage"}</p>
               )}
             </div>
           </div>

@@ -9,7 +9,7 @@ const api = axios.create({
   }
 });
 
-export const transcribeAudio = async (audioBlob, lang = "yoruba") => {
+export const transcribeAudio = async (audioBlob, lang) => {
   const formData = new FormData();
   formData.append("file", audioBlob, "audio.wav");
 

@@ -28,7 +28,7 @@ const RoleSelector = ({ onSelectRole }) => {
               Welcome to Nurse<span className="text-emerald-500">Naija</span>
             </h2>
             <p className="text-base sm:text-lg text-gray-600">
-              Please choose your preferred language
+              Please choose the patient's language
             </p>
           </motion.div>
 
@@ -39,7 +39,7 @@ const RoleSelector = ({ onSelectRole }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                onClick={() => setLanguage(lang.spelling)}
+                onClick={() => setLanguage(lang.name)}
                 className="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-emerald-500 transition-all duration-200 text-lg font-semibold capitalize"
               >
                 {lang.spelling}
@@ -59,7 +59,7 @@ const RoleSelector = ({ onSelectRole }) => {
             className="text-center mb-6 flex flex-col items-center justify-center"
           >
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Choose your role
+              Who is <span className='text-emerald-600'>assisting</span> the patient?
             </h2>
 
             <p className="text-gray-600 text-base sm:text-lg">
@@ -94,10 +94,10 @@ const RoleSelector = ({ onSelectRole }) => {
                   <UserIcon className="w-10 h-10 text-emerald-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Patient
+                  Community Responder
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Describe symptoms and get triage guidance
+                  For volunteers, NGO workers, or bystanders assisting someone who speaks another language
                 </p>
               </div>
             </motion.button>
@@ -115,10 +115,10 @@ const RoleSelector = ({ onSelectRole }) => {
                   <StethoscopeIcon className="w-10 h-10 text-blue-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  Physician
+                  Healthcare Responder
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Assist with patient triage and assessment
+                  For trained healthcare workers performing medical triage across language barriers
                 </p>
               </div>
             </motion.button>

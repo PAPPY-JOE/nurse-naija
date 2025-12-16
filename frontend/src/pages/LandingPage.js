@@ -2,7 +2,7 @@ import { FeaturesSection, Footer, Header, HeroSection, HowItWorksSection } from 
 
 const LandingPage = ({onNavigateAbout}) => {
   return (
-    <div className="min-h-screen bg- white bg-red-500">
+    <div className="min-h-screen bg-white">
       {/* Navigation */}
       <Header currentPage={"home"} onNavigateAbout={onNavigateAbout} />
       

@@ -236,8 +236,9 @@ const ConversationView = ({
                     </h3>
                     <p className="text-sm sm:text-base text-gray-600 max-w-xs my-2">
                       {userRole === 'patient'
-                        ? 'Describe your symptoms using voice or text'
-                        : 'Help assess patient symptoms and provide triage guidance'}
+                        ? 'Record what the patient is experiencing using voice or text'
+                        : 'Record patient-reported symptoms for triage assessment'
+                      }
                     </p>
                   </>
                 )}
@@ -287,7 +288,7 @@ const ConversationView = ({
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </p>
                 {message.role === 'user'&& (
-                  <p className='ml-3'>{`Original (${message.language ?? "Auto"})`}</p>
+                  <p className='ml-3 capitalize'>{`Original (${message.language ?? "Auto"})`}</p>
                 )}
               </div>
             </div>
@@ -319,8 +320,8 @@ const ConversationView = ({
 
         {isError && messages.length > 0 && (
           <div className='flex px-1'>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-200 bg-red-100`}>
-                  <CloudOff className="w-5 h-5 text-gray-900" />
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-red-100`}>
+              <CloudOff className="w-5 h-5 text-gray-900" />
             </div>
 
             <div className='max-w-[80%] rounded-2xl rounded-tl-none mx-2 px-4 py-3 flex flex-col items-center justify-start bg-red-100'>
