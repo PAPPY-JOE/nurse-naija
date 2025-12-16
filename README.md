@@ -11,8 +11,9 @@ NurseNaija is a multilingual, AI-powered **medical triage assistant** designed t
 The system leverages **N-ATLaS (Nigeria’s national multilingual large language model)** to understand patient symptoms expressed in local languages and provide **safe, structured triage-level guidance** — without diagnosing or prescribing medication.
 
 <p align="center">
-  <img src="https://github.com/PAPPY-JOE/nurse-naija/blob/main/frontend/public/assets/demo_a.jpeg" width="350" alt="Demo A" />
-  <img src="https://github.com/PAPPY-JOE/nurse-naija/blob/main/frontend/public/assets/demo_b.jpeg" width="350" alt="Demo B" />
+  <img src="https://github.com/PAPPY-JOE/nurse-naija/blob/main/frontend/public/assets/demo.jpeg" width="300" alt="Demo" />
+  <img src="https://github.com/PAPPY-JOE/nurse-naija/blob/main/frontend/public/assets/demo_a.jpeg" width="300" alt="Demo A" />
+  <img src="https://github.com/PAPPY-JOE/nurse-naija/blob/main/frontend/public/assets/demo_b.jpeg" width="300" alt="Demo B" />
 </p>
 
 <br>
